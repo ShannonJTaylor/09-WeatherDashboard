@@ -30,17 +30,15 @@ class WeatherService {
   // TODO: Define the baseURL, API key, and city name properties
   private baseURL: string;
   private apiKey: string;
-  private cityName: string;
-
+  
   constructor() {
     this.baseURL = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={apiKey}';
-    this.apiKey = process.env.WEATHER_API_KEY || '';
-    this.cityName = '';
+    this.apiKey = process.env.WEATHER_API_KEY || '';    
   }
-  // TODO: Create fetchLocationData method
+  // TODO: Create fetchLocationData method based on city name
   private async fetchLocationData(query: string): Promise<any> {
-    const url = `${this.baseURL}/geocode/jason?address=${query}&key=${this.apiKey}`;
-    const response = await fetch(url);
+    const geocodeQuery = this.buildGeocodeQuery(query);
+    const response = await fetch(geocodeQuery);
     const data = await response.json();
     return data;
     }
