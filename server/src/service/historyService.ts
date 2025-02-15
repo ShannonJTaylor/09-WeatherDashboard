@@ -1,7 +1,13 @@
 //import { error } from 'console';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath  } from 'url'; //Import for ES module compatibility
 import { v4 as uuidv4 } from 'uuid';
+
+//Define __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const filePath = path.join(__dirname, '../../data/searchHistory.json');
 
