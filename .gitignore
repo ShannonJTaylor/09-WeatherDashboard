@@ -3,8 +3,9 @@ node_modules/
 
 # Build output
 build/
-server/dist/
-client/dist/
+#server/dist/
+#client/dist/
+
 # Environment variables
 .env
 .env.local
