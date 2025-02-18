@@ -1,4 +1,4 @@
-//import { error } from 'console';
+import { error } from 'console';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath  } from 'url'; //Import for ES module compatibility
@@ -27,6 +27,10 @@ class HistoryService {
   private async read(): Promise<City[]> {
     try {
       const data = await fs.promises.readFile(filePath, 'utf-8');
+      //If data is empty return an empty array
+      if (!data) {
+        return [];
+      }
       return JSON.parse(data); //Return the parsed data as an array of City objects
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === 'ENOENT') {

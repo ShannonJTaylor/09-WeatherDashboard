@@ -2,10 +2,14 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "ES2020" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "outDir": "./dist" /* Redirect output structure to the directory. */,
+    "rootDir": "./", /* Only compile files in src/ */
+    "noEmit": false /* Ensure TypeScript emits .js files. */,
+
 
     /* Modules */
     "module": "ESNext" /* Specify what module code is generated. */,
-    "moduleResolution": "Bundler" /* Specify how TypeScript looks up a file from a given module specifier. */,
+    "moduleResolution": "Node" /* Specify how TypeScript looks up a file from a given module specifier. */,
 
     /* JavaScript Support */
     "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
@@ -25,5 +29,20 @@
     "noImplicitReturns": true /* Enable error reporting for codepaths that do not explicitly return in a function. */,
     "noImplicitOverride": true /* Ensure overriding members in derived classes are marked with an override modifier. */,
     "useUnknownInCatchVariables": true /* Ensure 'unknown' is used for catch clause variables. */
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "client/dist",
+    "server/dist",
+    "client/vite.config.js",
+    "client/src/vite-env.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./client/tsconfig.json"
+    },
+    {
+      "path": "./server/tsconfig.json"
+    }
+  ] 
 }

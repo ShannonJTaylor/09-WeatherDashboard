@@ -6,10 +6,19 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "allowImportingTsExtensions": true,
+    //"allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": false,
+
+    /*Fix for incorrect rootDir */
+    "rootDir": "./src",
+    "composite": true,
+
+    "strict": true,
+
+  
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
