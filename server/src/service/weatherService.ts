@@ -32,7 +32,7 @@ class WeatherService {
   private apiKey: string;
   
   constructor() {
-    this.baseURL = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={apiKey}';
+    this.baseURL = process.env.API_BASE_URL || '';
     this.apiKey = process.env.WEATHER_API_KEY || '';    
   }
   // TODO: Create fetchLocationData method based on city name
@@ -75,21 +75,20 @@ class WeatherService {
   // TODO: Build parseCurrentWeather method
   private parseCurrentWeather(response: any): Weather {
     return new Weather(
-      response.main.temp,
-      response.weather[0].description,
-      response.main.humidity,
-      response.wind.speed,
+      response.current.temp,
+      response.current.weather[0].description,
+      response.current.humidity,
+      response.current.wind_speed,
     );
   }
   // TODO: Complete buildForecastArray method
   private buildForecastArray(weatherData: any[]): Weather[] {
-    const forecast = weatherData.slice(0, 5).map((data:any) => new Weather(
+    return weatherData.slice(0, 5).map((data:any) => new Weather(
       data.main.temp, 
       data.weather[0].description, 
       data.main.humidity, 
       data.wind.speed    
     ));
-    return forecast;
   }
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string): Promise<Weather[]> {
@@ -101,7 +100,7 @@ class WeatherService {
       //Parse current weather data
       const currentWeather = this.parseCurrentWeather(weatherData);
       //Build teh forecast array usikng the forecast data
-      const forecast = this.buildForecastArray(weatherData.list);
+      const forecast = this.buildForecastArray(weatherData.daily); // Using `daily` for forecast
       //Return the current weather and foreccast array
       return [currentWeather, ...forecast];
     } catch (error) {

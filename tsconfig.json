@@ -3,17 +3,15 @@
     /* Language and Environment */
     "target": "ES2020" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     "outDir": "./dist" /* Redirect output structure to the directory. */,
-    "rootDir": "./server/src", /* Only compile files in src/ */
-    "noEmit": false /* Ensure TypeScript emits .js files. */,
-
+    "rootDir": ".",
+    "composite": true, 
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true /* Skip type checking of declaration files. */,
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
 
     /* Modules */
-    "module": "ESNext" /* Specify what module code is generated. */,
+    "module": "CommonJS" /* Specify what module code is generated. */,
     "moduleResolution": "Node" /* Specify how TypeScript looks up a file from a given module specifier. */,
-
-    /* JavaScript Support */
-    "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
-    "checkJs": true /* Enable error reporting in type-checked JavaScript files. */,
 
     /* Interop Constraints */
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
@@ -30,19 +28,16 @@
     "noImplicitOverride": true /* Ensure overriding members in derived classes are marked with an override modifier. */,
     "useUnknownInCatchVariables": true /* Ensure 'unknown' is used for catch clause variables. */
   },
+
+  "include": [
+    "client/src",
+    "server/src"
+
+  ],
   "exclude": [
     "node_modules",
-    "client/dist",
-    "server/dist",
-    "client/vite.config.js",
-    "client/src/vite-env.d.ts"
+    "dist",
+    "client/vite.config.js"
   ],
-  "references": [
-    {
-      "path": "./client/tsconfig.json"
-    },
-    {
-      "path": "./server/tsconfig.json"
-    }
-  ] 
+ 
 }

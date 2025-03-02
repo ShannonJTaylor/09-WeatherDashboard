@@ -1,12 +1,13 @@
 //import { error } from 'console';
 import fs from 'fs';
+//import { _ } from 'inquirer/dist/commonjs/ui/prompt';
 import path from 'path';
-import { fileURLToPath  } from 'url'; //Import for ES module compatibility
+//import { fileURLToPath  } from 'url'; //Import for ES module compatibility
 import { v4 as uuidv4 } from 'uuid';
 
-//Define __dirname equivalent for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
+global.__dirname = __dirname || path.resolve();
+
 
 
 const filePath = path.join(__dirname, '../../data/searchHistory.json');
@@ -24,17 +25,21 @@ class City {
 // TODO: Complete the HistoryService class
 class HistoryService {
   // TODO: Define a read method that reads from the searchHistory.json file
+  private async ensureFileExists(): Promise<void> {
+    if (!fs.existsSync(filePath)) {
+      await fs.promises.writeFile(filePath, '[]', 'utf-8'); //Create the file if it doesn't exist
+    }
+  } 
+  //Read search history
   private async read(): Promise<City[]> {
     try {
+      await this.ensureFileExists(); //Ensure the file exists before reading
       const data = await fs.promises.readFile(filePath, 'utf-8');
       //If data is empty return an empty array
-      if (!data) {
-        return [];
-      }
-      return JSON.parse(data); //Return the parsed data as an array of City objects
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
-      return []; //If the file doesn't exist, return an empty array
+      return data.trim() ? JSON.parse(data) : [];
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+        return []; //If the file doesn't exist, return an empty array
     }
     throw err; //If there's an error other than the file not existing, throw the error
   }
@@ -42,7 +47,7 @@ class HistoryService {
   // TODO: Define a write method that writes the updated cities array to the searchHistory.json file
   private async write(cities: City[]): Promise<void> {
     try {
-      await fs.promises.writeFile(filePath, JSON.stringify(cities, null, 2)); //Format the data with 2 spaces for indentation
+      await fs.promises.writeFile(filePath, JSON.stringify(cities, null, 2), 'utf-8'); //Format the data with 2 spaces for indentation
     } catch (err) {
       throw err; //Handle error during write
     }

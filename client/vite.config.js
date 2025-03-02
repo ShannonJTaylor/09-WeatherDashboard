@@ -13,16 +13,11 @@ export default defineConfig({
         secure: false,
       },
     },
-  },
-
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,    
-    
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'client/src'),
+  },build: {
+    outDir: 'client/dist', // Outputs compiled files here
+    emptyOutDir: true,
+    rollupOptions: {
+      input: path.resolve(__dirname, 'client/index.html'), // Ensure this is correct
     },
   },
 });
