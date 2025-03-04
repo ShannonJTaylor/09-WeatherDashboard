@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import path from 'path';
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,11 +13,12 @@ export default defineConfig({
         secure: false,
       },
     },
-  },build: {
-    outDir: 'client/dist', // Outputs compiled files here
-    emptyOutDir: true,
+  },
+  build: {
+    // outDir: 'dist', // Outputs compiled files here
+    // emptyOutDir: true,
     rollupOptions: {
-      input: path.resolve(__dirname, 'client/index.html'), // Ensure this is correct
+      input: 'index.html', //Vite entry HTML
     },
   },
 });

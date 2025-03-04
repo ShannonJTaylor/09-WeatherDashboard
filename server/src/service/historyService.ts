@@ -64,10 +64,15 @@ class HistoryService {
     await this.write(cities); //Write the updated array back to the file
   }
   // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
-  public async removeCity(id: string): Promise<void> {
+  public async removeCity(id: string): Promise<boolean> {
     const cities = await this.read(); //Get the current cities
     const updatedCities = cities.filter((city) => city.id !== id); //Filter out the city with the matching id
+
+    if (cities.length === updatedCities.length) {
+      return false; //If no city was removed, return false
+    } 
     await this.write(updatedCities); //Write the updated array back to the file
+    return true; //Return true if a city was removed
     }
   }
 
