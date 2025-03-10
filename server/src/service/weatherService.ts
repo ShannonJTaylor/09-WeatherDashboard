@@ -32,20 +32,23 @@ class Weather {
 class WeatherService {
   // TODO: Define the baseURL, API key, and city name properties
   private apiKey: string;
-  private geocodeBaseURL: string;
-  private weatherBaseURL: string;
+  private apiBaseURL: string;
+  
   
   
   constructor() {
-    this.geocodeBaseURL = process.env.GEOCODE_BASE_URL || '';
-    this.weatherBaseURL = process.env.WEATHER_BASE_URL || '';    
-    this.apiKey = process.env.WEATHER_API_KEY || '';    
+    this.apiBaseURL = process.env.API_BASE_URL || '';
+    this.apiKey = process.env.WEATHER_API_KEY || '';
+
+    console.log('API Base URL:', this.apiBaseURL);
+    console.log('API Key:', this.apiKey);
   }
   // TODO: Create fetchLocationData method based on city name
   private async fetchLocationData(cityName: string): Promise<Coordinates> {
-    const url = this.buildGeocodeQuery(cityName);
+    const url = this.buildGeocodeQuery(cityName)      //`${this.apiBaseURL.replace('/data/2.5', '')}/geo/1.0/direct?q=${cityName}&appid=${this.apiKey}`;
+    console.log(`Fetching geolocationdata from: ${url}`);
+    
     const response = await fetch(url);
-
     if (!response.ok) throw new Error('Geocoding API failes: ${response.statusText}');
 
     const data = (await response.json()) as GeocodeResponse[];
@@ -57,22 +60,22 @@ class WeatherService {
       lon: data[0].lon,
     };
   }
+
+  // TODO: Create buildGeocodeQuery method
+  private buildGeocodeQuery(cityName: string):string {
+    return `${this.apiBaseURL.replace('/data/2.5', '')}/geo/1.0/direct?q=${cityName}&appid=${this.apiKey}`;
+  }
     
   // TODO: Create destructureLocationData method
   private destructureLocationData(locationData: any): Coordinates {
     return {
-      lat: locationData.results[0].geometry.location.lat,
-      lon: locationData.results[0].geometry.location.lng,
+      lat: locationData[0].lat,
+      lon: locationData[0].lng,
     };
-  }
-
-  // TODO: Create buildGeocodeQuery method
-  private buildGeocodeQuery(cityName: string): string {
-    return `${this.geocodeBaseURL}/weather?q=${cityName}&appid=${this.apiKey}`;
-  }
+  }  
   // TODO: Create buildWeatherQuery method
   private buildWeatherQuery(coordinates: Coordinates): string {
-    return `${this.weatherBaseURL}/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`;    
+    return `${this.apiBaseURL}/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}&units=metric`;    
   }
   // TODO: Create fetchAndDestructureLocationData method
   private async fetchAndDestructureLocationData(cityName: string): Promise<Coordinates> {
@@ -82,6 +85,7 @@ class WeatherService {
   // TODO: Create fetchWeatherData method
   private async fetchWeatherData(coordinates: Coordinates): Promise<any> {
     const url = this.buildWeatherQuery(coordinates);
+    console.log(`Fetching weather data from: ${url}`);
     const response = await fetch(url);
     if (!response.ok) throw new Error('Weather API failed: ${response.statusText}');
     return response.json();
@@ -90,19 +94,19 @@ class WeatherService {
   // TODO: Build parseCurrentWeather method
   private parseCurrentWeather(response: any): Weather {
     return new Weather(
-      response.cityName,
-      response.current.temp,      
-      response.current.humidity,
-      response.current.windSpeed,
+      response.city.name,
+      response.list[0].current.temp,      
+      response.list[0].current.humidity,
+      response.list[0].current.wind.speed,
     );
   }
   // TODO: Complete buildForecastArray method
   private buildForecastArray(weatherData: any[]): Weather[] {
-    return weatherData.slice(0, 5).map((data:any) => new Weather(
-      data.cityName,
-      data.main.temp,       
-      data.main.humidity, 
-      data.wind.speed    
+    return weatherData.slice(0, 5).map((data:any) => new Weather( 
+      data.dt_txt,  // Timestamp for the forecast
+      data.main.temp,
+      data.main.humidity,
+      data.wind.speed,   
     ));
   }
   // TODO: Complete getWeatherForCity method

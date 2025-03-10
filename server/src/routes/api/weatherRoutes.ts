@@ -19,7 +19,7 @@ router.post('/weather', async (req, res) => {
     // Get the weather data from your weather service (API call)
     const weatherData = await WeatherService.getWeatherForCity(cityName);
 
-    if (!weatherData) {
+    if (!weatherData || weatherData.length === 0) {
       return res.status(404).json({ message: "City not found" });
     }
 
