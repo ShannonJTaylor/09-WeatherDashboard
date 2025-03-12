@@ -10,7 +10,7 @@ This Weather Dashboard is a full-stack web application that fetches real-time we
 - Responsive design for both desktop and mobile devices
 
 ## Screenshot
-![Application Screenshot](C:\Users\shann\bootcamp-1\homework\09-WeatherDashboard\client\src\assets\images\DashboardScreenshot.png)
+![Application Screenshot](https://github.com/ShannonJTaylor/09-WeatherDashboard/blob/main/client/src/assets/images/DashboardScreenshot.png)
 
 ## Deployment
 You can access the deployed application at the following link:
