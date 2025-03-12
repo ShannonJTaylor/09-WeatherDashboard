@@ -10,18 +10,18 @@ This Weather Dashboard is a full-stack web application that fetches real-time we
 - Responsive design for both desktop and mobile devices
 
 ## Screenshot
-![Application Screenshot](path-to-screenshot-image)
+![Application Screenshot](/client/src/assets/images/DashboardScreenshot.png)
 
 ## Deployment
 You can access the deployed application at the following link:
-[Live Application](URL-to-deployed-app)
+[Live Application](https://zero9-weatherdashboard.onrender.com)
 
 ## Installation
 To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/ShannonJTaylor/09-WeatherDashboard/tree/main
    ```
 2. Navigate into the project directory:
    ```bash
